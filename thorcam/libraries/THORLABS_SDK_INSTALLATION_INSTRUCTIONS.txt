@@ -1,0 +1,81 @@
+THORLABS SDK INSTALLATION INSTRUCTIONS for Linux
+
+(JSG) These are the original instructions from the Thorlabs SDK bundle. Instead we vendorise the required libraries here and load them from the Python wrapper.
+
+Note that the system running the camera may need to set up additional USB rules to access the camera. See usb.rules.
+
+----
+
+The following instructions explain how to build the Thorlabs SDK on Linux.
+The shared object files referenced here are located in SDK/Native_Compact_Camera_Toolkit/lib/{TARGET_ARCHITECTURE}/
+
+The SDK consists of 4 parts:
+
+1. The Camera SDK (used for interfacing with Thorlabs cameras)
+2. The Mono To Color Processing SDK (used for coloring images received by the Camera SDK)
+3. The Color Processing Suite (A set of libraries used by the Mono To Color Processing SDK. The suite is provided to allow power users full control of the color processing pipeline)
+4. The Polarization SDK (used for processing images retrieved by Thorlabs polarized cameras)
+
+STEPS:
+
+1. Copy (as root) the Camera SDK shared libraries to /usr/local/lib:
+
+- libthorlabs_unified_sdk_main.so
+- libthorlabs_unified_sdk_kernel.so
+- libthorlabs_tsi_usb_driver.so
+- libthorlabs_tsi_cs_camera_device.so
+- libthorlabs_tsi_zelux_camera_device.so
+- libthorlabs_tsi_camera_sdk.so
+
+For example, on Ubuntu Linux, you can enter the following command:
+
+    sudo cp libthorlabs_unified_sdk_main.so /usr/local/lib
+    (Enter the appropriate password at the prompt.)
+
+2. IF your application requires color processing, then copy the following shared libraries to /usr/local/lib:
+
+- libthorlabs_tsi_mono_to_color_processing.so
+- libthorlabs_tsi_demosaic.so
+- libthorlabs_tsi_demosaic_vector_avx2.so
+- libthorlabs_tsi_color_processing.so
+- libthorlabs_tsi_color_processing_vector_avx2.so
+- libthorlabs_tsi_color_processing_vector_sse.so
+- libthorlabs_tsi_LUT.so
+
+3. IF your application requires polarization processing, then copy the following shared libraries to /usr/local/lib:
+
+- libthorlabs_tsi_polarization_processor.so
+- libthorlabs_tsi_polarization_processor_vector_avx2.so
+
+4. Run the following command (on Ubuntu Linux) to make the libraries available to applications:
+
+    sudo ldconfig -v
+
+5. Configuring the Linux device manager
+
+Copy the usb.rules file located in the same folder as this document to /etc/udev/rules.d.  If that folder does not exist, please create it.
+
+This will allow Thorlabs Compact Scientific cameras to be recognized by the Linux device manager.
+
+6. C++ Standard Shared Library
+
+The shared libraries in this distribution require version GLIBCXX_3.4.25 of libstdc++.so.6 (the GNU C++ standard library)
+to be installed on the system.
+
+In order to find out what versions are installed on your system, enter:
+
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
+If you do not see GLIBCXX_3.4.25 in the list, then enter the following commands:
+
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+
+sudo apt-get update
+
+sudo apt-get upgrade libstdc++6
+
+sudo apt-get dist-upgrade
+
+After that, enter the following to confirm that version GLIBCXX_3.4.25 is present:
+
+strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
