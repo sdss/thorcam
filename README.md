@@ -4,8 +4,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Documentation Status](https://readthedocs.org/projects/sdss-thorcam/badge/?version=latest)](https://sdss-thorcam.readthedocs.io/en/latest/?badge=latest)
 [![Tests Status](https://github.com/sdss/thorcam/workflows/Test/badge.svg)](https://github.com/sdss/thorcam/actions)
-[![Build Status](https://github.com/sdss/thorcam/workflows/Build/badge.svg)](https://github.com/sdss/thorcam/actions)
-[![codecov](https://codecov.io/gh/sdss/thorcam/branch/master/graph/badge.svg)](https://codecov.io/gh/sdss/thorcam)
+[![codecov](https://codecov.io/gh/sdss/thorcam/branch/main/graph/badge.svg)](https://codecov.io/gh/sdss/thorcam)
 
 A library to control Thorlabs Zelux CMOS cameras.
 
