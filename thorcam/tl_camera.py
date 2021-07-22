@@ -84,7 +84,9 @@ class TL_SDK:
 
     def __init__(self):
 
-        lib_path = CWD / "libraries/libthorlabs_tsi_camera_sdk.so"
+        self.is_sdk_open = False
+
+        lib_path = "libthorlabs_tsi_camera_sdk.so"
         self.libc = ctypes.cdll.LoadLibrary(str(lib_path))
 
         self.load_argtypes()
