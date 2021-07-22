@@ -15,10 +15,16 @@ from click_default_group import DefaultGroup
 
 from sdsstools.daemonizer import DaemonGroup, cli_coro
 
+from thorcam import config
+from thorcam.actor import ThorActor
+from thorcam.camera import ThorCameraSystem
+
 
 @click.group(cls=DefaultGroup, default="actor", default_if_no_args=True)
 def thorcam():
     """Command Line Interface for Thorlabs Zelux CMOS cameras."""
+
+    pass
 
 
 @thorcam.group(cls=DaemonGroup, prog="thorcam-actor", workdir=os.getcwd())
@@ -26,7 +32,13 @@ def thorcam():
 async def actor():
     """Start/stop the actor as a daemon."""
 
-    pass
+    thorcam = ThorCameraSystem()
+    await thorcam.start_camera_poller()
+
+    thor_actor = ThorActor.from_config(config["actor"], thorcam)
+    await thor_actor.start()
+
+    await thor_actor.run_forever()
 
 
 def main():
