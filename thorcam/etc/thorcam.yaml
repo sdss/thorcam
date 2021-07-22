@@ -7,3 +7,9 @@ actor:
     port: 6093
     models: []
   log_dir: '/data/logs/actors/{actor_name}/'
+
+cameras:
+  thor_apo:
+    uid: 13981
+    serial: 13981
+    autoconnect: true
