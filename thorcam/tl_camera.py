@@ -87,7 +87,21 @@ class TL_SDK:
         self.is_sdk_open = False
 
         lib_path = "libthorlabs_tsi_camera_sdk.so"
+<<<<<<< HEAD
         self.libc = ctypes.cdll.LoadLibrary(str(lib_path))
+=======
+
+        try:
+            self.libc = ctypes.cdll.LoadLibrary(str(lib_path))
+        except OSError as err:
+            if "No such file or directory" in str(err):
+                raise OSError(
+                    f"Cannot open {lib_path}. The shared object file was not found. "
+                    "Did you copy the libthorlabs libraries to /usr/local/lib?"
+                )
+            else:
+                raise
+>>>>>>> ecd1831e08fc66f98cdf5d67fac75bb571156315
 
         self.load_argtypes()
 
