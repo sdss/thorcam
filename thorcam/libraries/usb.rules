@@ -1,5 +1,0 @@
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1313", ATTRS{idProduct}=="4001", MODE="0666"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1313", ATTRS{idProduct}=="4001", MODE="0666"
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1313", ATTRS{idProduct}=="4002", MODE="0666"
-SUBSYSTEM=="usb", ATTRS{idVendor}=="1313", ATTRS{idProduct}=="4002", MODE="0666"
-
