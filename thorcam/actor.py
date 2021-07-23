@@ -8,21 +8,13 @@
 
 from typing import Optional
 
-<<<<<<< HEAD
-from basecam.actor import CameraActor
-=======
 from basecam.actor import BaseCameraActor
 from clu.legacy import LegacyActor
->>>>>>> ecd1831e08fc66f98cdf5d67fac75bb571156315
 
 from thorcam.camera import ThorCameraSystem
 
 
-<<<<<<< HEAD
-class ThorActor(CameraActor):
-=======
 class ThorActor(BaseCameraActor, LegacyActor):
->>>>>>> ecd1831e08fc66f98cdf5d67fac75bb571156315
     """Thorcam actor."""
 
     def __init__(
@@ -35,11 +27,7 @@ class ThorActor(BaseCameraActor, LegacyActor):
     ):
 
         self.camera_system = camera_system
-<<<<<<< HEAD
-        super().__init__(camera_system, *args, validate=False, **kwargs)
-=======
         super().__init__(camera_system, *args, **kwargs)
->>>>>>> ecd1831e08fc66f98cdf5d67fac75bb571156315
 
         # The default image namer writes to ./ For production we want to write to /data.
         _data_dir: str = data_dir or "/data/tcam"

@@ -87,9 +87,6 @@ class TL_SDK:
         self.is_sdk_open = False
 
         lib_path = "libthorlabs_tsi_camera_sdk.so"
-<<<<<<< HEAD
-        self.libc = ctypes.cdll.LoadLibrary(str(lib_path))
-=======
 
         try:
             self.libc = ctypes.cdll.LoadLibrary(str(lib_path))
@@ -101,7 +98,6 @@ class TL_SDK:
                 )
             else:
                 raise
->>>>>>> ecd1831e08fc66f98cdf5d67fac75bb571156315
 
         self.load_argtypes()
 
