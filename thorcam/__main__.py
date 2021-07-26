@@ -32,12 +32,9 @@ def thorcam():
 async def actor():
     """Start/stop the actor as a daemon."""
 
-    thorcam = ThorCameraSystem()
-    await thorcam.start_camera_poller()
+    thorcam = await ThorCameraSystem().setup()
 
-    thor_actor = ThorActor.from_config(config["actor"], thorcam)
-    await thor_actor.start()
-
+    thor_actor = await ThorActor.from_config(config["actor"], thorcam).start()
     await thor_actor.run_forever()
 
 
