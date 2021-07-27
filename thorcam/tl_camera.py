@@ -67,6 +67,7 @@ SDK_FUNCTION_PROTOTYPES = {
     ],
     "get_image_height": [tl_handle, POINTER(c_int)],
     "get_image_width": [tl_handle, POINTER(c_int)],
+    "set_is_led_on": [tl_handle, c_int],
 }
 
 
@@ -198,6 +199,8 @@ class SDKCamera:
         self.sdk.libc.get_image_width(self.handle, width)
         self.height = height.value
         self.width = width.value
+
+        self.sdk.libc.set_is_led_on(self.handle, 0)
 
     def __del__(self):
         self.sdk.libc.close_camera(self.handle)
