@@ -254,8 +254,8 @@ class SDKCamera:
             shape=(self.height, self.width),
         )
 
-        # if self.is_armed():
-        #     self.sdk.libc.disarm(self.handle)
+        if self.is_armed():
+            self.sdk.libc.disarm(self.handle)
 
         return image_buffer_as_array
 
