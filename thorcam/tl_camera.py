@@ -67,6 +67,7 @@ SDK_FUNCTION_PROTOTYPES = {
     ],
     "get_image_height": [tl_handle, POINTER(c_int)],
     "get_image_width": [tl_handle, POINTER(c_int)],
+    "set_is_led_on": [tl_handle, c_int],
 }
 
 
@@ -105,6 +106,7 @@ class TL_SDK:
         self.is_sdk_open = True
 
         # We need to run this once even if we know the serial of the camera to connect.
+        self._cameras: list[str] | None = None
         self.list_available_cameras()
 
     def __del__(self):
@@ -133,15 +135,21 @@ class TL_SDK:
     def list_available_cameras(self) -> list[str]:
         """Returns a list of connected camera identifiers."""
 
+        # tl_camera_discover_available_cameras can only be called once after the
+        # SDK opens so we cache the result.
+
         if not self.is_sdk_open:
             raise SDKError("SDK is not open.")
+
+        if self._cameras is not None:
+            return self._cameras
 
         buffer = ctypes.create_string_buffer(100)
         self.libc.tl_camera_discover_available_cameras(buffer, 100)
 
-        cameras = buffer.value.decode().split()
+        self._cameras = buffer.value.decode().split()
 
-        return cameras
+        return self._cameras
 
     def open_camera(self, serial: str):
         """Opens a camera and returns a `.SDKCamera` object."""
@@ -191,6 +199,8 @@ class SDKCamera:
         self.sdk.libc.get_image_width(self.handle, width)
         self.height = height.value
         self.width = width.value
+
+        self.sdk.libc.set_is_led_on(self.handle, 0)
 
     def __del__(self):
         self.sdk.libc.close_camera(self.handle)
@@ -244,21 +254,21 @@ class SDKCamera:
             shape=(self.height, self.width),
         )
 
-        self.sdk.libc.disarm(self.handle)
+        if self.is_armed():
+            self.sdk.libc.disarm(self.handle)
 
         return image_buffer_as_array
 
     def expose(self, exposure_time: Optional[float] = None) -> numpy.ndarray | None:
         """Expose and return a Numpy array. Blocks synchronously."""
 
-        if self.is_armed():
-            self.sdk.libc.disarm(self.handle)
-
         if exposure_time is not None:
             self.exposure_time = exposure_time
 
+        if self.is_armed():
+            self.sdk.libc.arm(self.handle, 2)
+
         self.sdk.libc.set_image_poll_timeout(self.handle, 100)
-        self.sdk.libc.arm(self.handle, 1)
         self.sdk.libc.issue_software_trigger(self.handle)
 
         sleep(self.exposure_time)

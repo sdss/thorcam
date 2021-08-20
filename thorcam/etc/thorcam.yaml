@@ -2,10 +2,9 @@ actor:
   name: thorcam
   host: 0.0.0.0
   port: 19994
-  tron:
-    host: localhost
-    port: 6093
-    models: []
+  tron_host: localhost
+  tron_port: 6093
+  models: []
 
 cameras:
   thor_apo:
